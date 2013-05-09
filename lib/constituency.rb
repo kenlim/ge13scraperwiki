@@ -3,7 +3,7 @@ require 'nokogiri'
 
 class Constituency
 	attr_reader :candidates, :registeredVoters, :rejectedBallots, :countedBallots, 
-		:issuedBallots, :name, :state, :code, :results
+		:issuedBallots, :name, :state, :code, :results, :winner
 
 	def initialize(resultPage)
 		@page = Nokogiri::HTML(resultPage)
@@ -13,6 +13,7 @@ class Constituency
 		@countedBallots = grabCommaNumber("//tr[td[text() ='JUMLAH KERTAS UNDI DALAM PETI UNDI ']]//td[position() = 4]")
 		@issuedBallots = grabCommaNumber("//tr[td[text() ='JUMLAH KERTAS UNDI DIKELUARKAN ']]//td[position() = 4]")
 		@results = grabResults()
+		@winner = @results.sort.reverse.first.party
 	end
 
 	def grabCommaNumber(xpath)
@@ -65,6 +66,10 @@ class Result
 		@name = name
 		@party = party
 		@votes = votes
+	end
+
+	def <=> (other)
+		self.votes <=> other.votes
 	end
 
 	def to_s

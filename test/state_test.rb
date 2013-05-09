@@ -1,4 +1,4 @@
-require 'lib/state'
+require './lib/state'
 require "test/unit"
 
 class TestStatePage < Test::Unit::TestCase

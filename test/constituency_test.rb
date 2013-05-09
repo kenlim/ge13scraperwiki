@@ -1,4 +1,4 @@
-require 'lib/constituency'
+require './lib/constituency'
 require "test/unit"
 
 class TestConstituencyPage < Test::Unit::TestCase
@@ -47,6 +47,13 @@ class TestConstituencyPage < Test::Unit::TestCase
 
 		assert_equal(results["PKR Candidate"], "Muhammad Bakhtiar Bin Wan Chik")
 		assert_equal(results["PKR Votes"], 20779)	
+	end
+
+	def test_marks_the_correct_winner
+		balikPulau = File.open("./test/balik_pulau.html")
+		results = Constituency.new(balikPulau)
+		
+		assert_equal("BN", results.winner())
 	end
 end	
 
